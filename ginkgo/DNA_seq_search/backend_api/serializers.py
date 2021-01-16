@@ -7,18 +7,19 @@ class QuerySerializer(serializers.ModelSerializer):
     results = serializers.StringRelatedField(many=True)
 
     class Meta:
+        model = Query
         fields = (
             'id',
             'query',
-            'pub_date',
             'results'
         )
-        model = Query
+        
 
 
 class ResultSerializer(serializers.ModelSerializer):
 
     class Meta:
+        model = Result
         fields = (
             'id',
             'query',
@@ -26,7 +27,7 @@ class ResultSerializer(serializers.ModelSerializer):
             'sstart',
             'send'
         )
-        model = Result
+        
 
     def __str__(self):
         return '%d: %s' % (self.order, self.title)

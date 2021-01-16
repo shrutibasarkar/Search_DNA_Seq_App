@@ -1,10 +1,13 @@
 from django.db import models
 from decimal import Decimal
+from django.utils import timezone
 
 # Create your models here.
 class Query(models.Model):
     query = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('updated')
+    # pub_date = models.DateTimeField('updated')
+    date_submitted = models.DateTimeField(default = timezone.now)
+    
 
     def __str__(self):
         return self.query

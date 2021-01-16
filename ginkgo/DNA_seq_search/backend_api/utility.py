@@ -1,10 +1,22 @@
 from Bio import SeqIO
 from Bio.Blast import NCBIXML
+from decimal import Decimal
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
-import tempfile
+from tempfile import TemporaryDirectory
 import csv
 from pathlib import Path
+from .models import Query,Result
+from django.utils import timezone
+from Bio.Blast.Applications import NcbiblastxCommandline
+import os 
+import subprocess 
+
+userInputFileSubPath = '/blastDB/userInput.fasta'
+resultFileSubPath = '/blastDB/result.txt'
+
+# This should be changed to work in production
+blastxPath = '/usr/local/ncbi/blast/bin/blastx'
 
 valid_dna_nucleotides = ["A","C","G","T"]
 def valid_sequence(string):
@@ -14,16 +26,10 @@ def valid_sequence(string):
             return False
     return tmpSeq
 
-
-def write_seq(seq_string, seq_id, format, desc, outfile):
-    seq = Seq(seq_string)
-    rec = SeqRecord(seq, id=seq_id, description=description)
-    SeqIO.write(rec, outfile, format)
-    
-
 def parse_xml_file(blast_file_path):
     result_hsps=[]
-    for record in NCBIXML.parse(open("my_blast.xml")):
+    E_VALUE_THRESH = 0.04
+    for record in NCBIXML.parse(open(blast_file_path)):
         if record.alignments:  # skip queries with no matches
             print("QUERY: %s" % record.query[:60])
             for align in record.alignments:
@@ -42,27 +48,32 @@ def parse_txt_file(file_path):
         blast_csv = csv.reader(blastfile, delimiter="\t")
         return [dict(zip(header, line)) for line in blast_csv]
 
+    
+def getBlast(seq, db, evalue=0.001):
 
-def prepare(seq, db, query="unknown", evalue=0.001):
-    with tempfile.TemporaryFile() as tmpdir:
-        fp = Path(tmpdir)
-        seq_file = fp.joinpath("userInput.fasta")
-        result_file = fp.joinpath('results.txt')
-
-        """ write_seq is called to write the sequence """
-
-        write_seq(seq, "seq_id", "fasta", "DNA_seq_search", str(seq_file))
-
-        query = Query(query=query, pub_date=timezone.now())
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        userInputFile = dir_path + userInputFileSubPath 
+        resultFilePath =  dir_path + resultFileSubPath
+        dbPath = dir_path + db 
+        
+        """Writes fasta sequence to specified path."""
+        sequence = Seq(seq)
+        rec = SeqRecord(sequence, id="seq_id", description="DNA_seq_search")
+        SeqIO.write(rec, str(userInputFile), "fasta")
+        
+        
+        """Storing DNA submitted by user to database"""
+        query = Query(query=seq, date_submitted=timezone.now())
         query.save()
 
-        blast_cline = NcbiblastxCommandline(query=str(seq_file), db=db, evalue=evalue, outfmt=6, out=str(result_file))
-        blast_cline()  # Running BLAST
-
-        result = parse_txt_file(str(result_file))
+        blastx_cline = NcbiblastxCommandline(cmd=blastxPath, query=str(userInputFile), db=dbPath, evalue=0.001, outfmt=5, out=str(resultFilePath))
+        
+        blastx_cline()
+        
+        result = parse_txt_file(str(resultFilePath))
 
         for record in result:
-            b = Result( qseqid=query,
+            res = Result( qseqid=query,
                         sseqid=record.get("saccver"),
                         pident=Decimal(record.get("pident")),
                         length=record.get("length"),
@@ -75,5 +86,5 @@ def prepare(seq, db, query="unknown", evalue=0.001):
                         evalue=Decimal(record.get("evalue")),
                         bitscore=Decimal(record.get("bitscore"))
                         )
-            b.pub_date = timezone.now()
-            b.save()
+            res.date_submitted = timezone.now()
+            res.save()
