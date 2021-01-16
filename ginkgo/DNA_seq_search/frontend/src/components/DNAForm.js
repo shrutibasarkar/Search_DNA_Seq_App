@@ -1,19 +1,45 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import FormControl from "@material-ui/core/FormControl";
 
+const BASE_URL ='http://127.0.0.1:8000';
+const placeHolderText = "Enter a DNA sequence consisting of ATGC of at least length 30."
+
 
 const DNAForm = () => {
-  // constructor(){
-  //   super();
-  //     this.callBackend = this.callBackend.bind()
-  // }
-  const [sequence, setSequence] = useState(false);
-  const BASE_URL ='http://127.0.0.1:8000';
 
-  async function callBackend(e) {
+  const [sequence, setSequence] = useState('');
+  const [message ,setMessage] = useState('');
+
+  // set the user input as state
+  function setText(e){
+    setSequence(e.target.value)
+  } 
+
+  // clears reponse message 
+  function clearResponseMessage(){
+    setMessage('')
+  }
+
+  // resets the text input area
+  function clearTextArea(e){
+    setSequence('')
+    clearResponseMessage()
+  } 
+ 
+  // check the status and set the message
+  const checkStatusAndSetMessage = (response) => {
+    if(response.status == '400') {
+      setMessage('Please enter a valid DNA sequence containg letters ATGC')
+    } else {
+      setMessage('DNA sequence submitted')
+    }
+  }
+
+  // calls the backend to initiate the blast search
+  const callBackend = async() => {
     const request = new Request(`${BASE_URL}/api/dna_seq/`, {
       method: 'post',
       headers: {
@@ -21,16 +47,10 @@ const DNAForm = () => {
       },
       body: JSON.stringify(sequence)
     });
+    setSequence('')
     const response = await fetch(request);
-    // const status = response.status;
-    console.log('responsexx', response)
+    checkStatusAndSetMessage(response)
   }
-
-  function setText(e){
-      setSequence(e.target.value)
-  } 
-
-  
 
   return (
       <Grid container spacing={1}>
@@ -43,20 +63,23 @@ const DNAForm = () => {
       <Grid item xs={12} align="center">
         <FormControl>
           <textarea id="dna_seq" name="dna_seq"
-          rows="5" cols="33" onChange={setText} placeholder ="Enter a DNA sequence consisting of ATGC of at least length 30."></textarea>
+          rows="5" cols="33" onClick={clearResponseMessage} onChange={setText} value={sequence} placeholder={placeHolderText}></textarea>
         </FormControl>
       </Grid>
+
+      {
+        message ? <p style={messageStyle}>{message}</p> : <p></p>
+      }
       
       <Grid item xs={12} align="center">
-        <Button color="primary" variant="contained" onClick={callBackend} disabled={!sequence.length}>
-          Submit
+        <Button color='primary' variant="contained" onClick={callBackend} disabled={!sequence.length}>
+          SUBMIT
         </Button>
-        
       </Grid>
-      
+
       <Grid item xs={12} align="center">
-      <Button color="secondary" variant="contained" onClick="">
-          Reset
+        <Button color="secondary" variant="contained" onClick={clearTextArea}>
+            Reset
         </Button>
       </Grid>
     </Grid>
