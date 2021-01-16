@@ -12,14 +12,11 @@ from rest_framework.response import Response
 class IndexView(generics.ListCreateAPIView):
     queryset = Query.objects.all()
     serializer_class = QuerySerializer
-
-# def home(request):
-#     return HttpResponse("hello")
-    
+ 
 @api_view(['POST'])
 def createBlast(request):
     dna_seq = request.data
-    # print("Submitted dna sequence: {}".format(dna_seq))
+    # print("Submitted dna sequence:",dna_seq))
     if not dna_seq:
         print("no DNA seq")
         Response(status=status.HTTP_400_BAD_REQUEST)
@@ -31,6 +28,5 @@ def createBlast(request):
     else:
         print("valid DNA seq")
         blast_res = getBlast(seq=dna_seq, db="/blastDB/mydb")           
-        blast_res.wait(timeout=200, interval=0.5)
         return Response(status=status.HTTP_201_CREATED)
     

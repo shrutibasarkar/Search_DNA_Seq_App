@@ -31,7 +31,6 @@ def parse_xml_file(blast_file_path):
     E_VALUE_THRESH = 0.04
     for record in NCBIXML.parse(open(blast_file_path)):
         if record.alignments:  # skip queries with no matches
-            print("QUERY: %s" % record.query[:60])
             for align in record.alignments:
                 for hsp in align.hsps:
                     if hsp.expect < E_VALUE_THRESH:
@@ -66,11 +65,13 @@ def getBlast(seq, db, evalue=0.001):
         query = Query(query=seq, date_submitted=timezone.now())
         query.save()
 
-        blastx_cline = NcbiblastxCommandline(cmd=blastxPath, query=str(userInputFile), db=dbPath, evalue=0.001, outfmt=5, out=str(resultFilePath))
+        blastx_cline = NcbiblastxCommandline(cmd=blastxPath, query=str(userInputFile), db=dbPath, evalue=0.001, outfmt=6, out=str(resultFilePath))
         
         blastx_cline()
         
         result = parse_txt_file(str(resultFilePath))
+        
+        print("result", result)
 
         for record in result:
             res = Result( qseqid=query,
@@ -87,4 +88,5 @@ def getBlast(seq, db, evalue=0.001):
                         bitscore=Decimal(record.get("bitscore"))
                         )
             res.date_submitted = timezone.now()
+            print("----->", res)
             res.save()
