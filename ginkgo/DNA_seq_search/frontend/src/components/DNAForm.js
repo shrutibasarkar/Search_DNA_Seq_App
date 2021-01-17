@@ -8,7 +8,7 @@ const BASE_URL ='http://127.0.0.1:8000';
 const placeHolderText = "Enter a DNA sequence consisting of ATGC of at least length 30."
 
 
-const DNAForm = () => {
+const DNAForm = (props) => {
 
   const [sequence, setSequence] = useState('');
   const [message ,setMessage] = useState('');
@@ -35,6 +35,7 @@ const DNAForm = () => {
       setMessage('Please enter a valid DNA sequence containg letters ATGC')
     } else {
       setMessage('DNA sequence submitted')
+      props.setLoadingText(true)
     }
   }
 
@@ -49,7 +50,9 @@ const DNAForm = () => {
     });
     setSequence('')
     const response = await fetch(request);
-    checkStatusAndSetMessage(response)
+    checkStatusAndSetMessage(response);
+
+    // create a text which says data is processing 
   }
 
   return (
@@ -68,7 +71,7 @@ const DNAForm = () => {
       </Grid>
 
       {
-        message ? <p style={messageStyle}>{message}</p> : <p></p>
+        message ? <p>{message}</p> : <p></p>
       }
       
       <Grid item xs={12} align="center">

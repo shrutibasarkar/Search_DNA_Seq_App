@@ -23,6 +23,7 @@ class ResultSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'query',
+            'salltitles',
             'sseqid',
             'sstart',
             'send'

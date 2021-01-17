@@ -15,6 +15,7 @@ class Query(models.Model):
 
 class Result(models.Model):
     qseqid = models.ForeignKey(Query,related_name='results',on_delete=models.CASCADE)
+    salltitles = models.CharField(default='SOME STRING',max_length=200)
     sseqid = models.CharField(max_length=200)
     qstart = models.IntegerField()
     qend = models.IntegerField()
@@ -28,4 +29,4 @@ class Result(models.Model):
     bitscore = models.DecimalField(default=Decimal('0.00'), max_digits=20,decimal_places=2)
 
     def __str__(self):
-        return "subject_id: {}, start of alignment in subject: {}, end of alignment in subject: {}, percentage of identical matches: {}".format(self.sseqid,self.sstart,self.send,self.pident)
+        return "subject_id: {}, name of the protein: {},start of alignment in subject: {}, end of alignment in subject: {}, percentage of identical matches: {}".format(self.sseqid,self.salltitles,self.sstart,self.send,self.pident)
