@@ -13,20 +13,15 @@ from rest_framework.response import Response
 class IndexView(generics.ListCreateAPIView):
     queryset = Query.objects.all()
     serializer_class = QuerySerializer
-    
-# class ResultView(viewsets.ModelViewSet):
-#     resultset = Result.objects.all()
-#     serializer_class = ResultSerializer
 
-
+# Result Serializer is not being used so we can remove it from the code 
 @api_view(['GET'])
-def getResuts(request):
-    resultSet = Result.objects.all()
-    # hello = ResultSerializer
-    # hello = ResultSerializer
-    serialized = serializers.serialize("json", resultSet, fields=('id', 'query', 'sseqid', 'sstart', 'send'))
-    print('hello', serialized)
-    return Response(status=status.HTTP_201_CREATED)
+def getResults(request):
+    # gets data from database
+    resultSet = Result.objects.all().order_by('-date_submitted')
+    # serialize the data
+    serialized = serializers.serialize("json", resultSet, fields=('id', 'sseqid',"date_submitted", "user_input",'bitscore', 'sstart', 'salltitles'))
+    return Response(serialized, status=status.HTTP_200_OK)
     
 @api_view(['POST'])
 def createBlast(request):
@@ -42,6 +37,7 @@ def createBlast(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
     else:
         print("valid DNA seq")
-        blast_res = getBlast(seq=dna_seq, db="/blastDB/Nucl")           
+        blast_res = getBlast(seq=dna_seq, db="/blastDB/Nucl")
+        print("views blast_res", blast_res)           
         return Response(status=status.HTTP_201_CREATED)
     

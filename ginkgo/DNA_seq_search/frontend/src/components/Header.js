@@ -9,7 +9,7 @@ const Header = () => {
 	 
     return (
 		<Jumbotron className=" App text-info my-4 text-center">
-			<h1 style={{ color: 'orange' }}> Ginkgo Bioworks code challenge</h1>
+			<h1 style={{ color: 'orange' }}> Ginkgo Bioworks Code Challenge</h1>
 			<p style={{ color: 'Brown' }}>Developed by Shruti Basarkar </p>
 			<hr/>
 		</Jumbotron> 

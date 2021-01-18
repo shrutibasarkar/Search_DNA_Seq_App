@@ -16,9 +16,10 @@ userInputFileSubPath = '/blastDB/userInput.fasta'
 resultFileSubPath = '/blastDB/result.txt'
 
 # This should be changed to work in production
-blastxPath = '/usr/local/ncbi/blast/bin/blastn'
-
+blastnPath = '/usr/local/ncbi/blast/bin/blastn'
 valid_dna_nucleotides = ["A", "C", "G", "T"]
+
+
 
 
 def valid_sequence(string):
@@ -50,6 +51,8 @@ def parse_txt_file(file_path):
 
 
 def getBlast(seq, db, evalue=0.001):
+    max_bitscore = 0
+    sorted_protein_list = []
 
     # set the path name
     dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -63,20 +66,40 @@ def getBlast(seq, db, evalue=0.001):
     SeqIO.write(rec, str(userInputFile), "fasta")
 
     """Storing DNA sequence submitted by user to database"""
+    # TODO delet this query to store user input database
     query = Query(query=seq, date_submitted=timezone.now())
+
     query.save()
 
     """running blast and storing results in output file"""
-    blastx_cline = NcbiblastnCommandline(cmd=blastxPath, query=str(userInputFile), db=dbPath, evalue=0.001,
+    blastn_cline = NcbiblastnCommandline(cmd=blastnPath, query=str(userInputFile), db=dbPath, evalue=0.001,
                                          outfmt="6 qseqid qlen sseqid  salltitles pident mismatch gapopen qstart qend  sstart send evalue bitscore", out=str(resultFilePath))
-    blastx_cline()
+   
+    blastn_cline()
 
-    # //seq_id	YP_009164975.1	60.000	35	14	0	254	358	4	38	5.33e-08	43.9
-    result = parse_txt_file(str(resultFilePath))
+    result = parse_txt_file(str(resultFilePath)) 
+    print("-result", result)
+    
+    # save mysql for unmatched query results 
+    if len(result) == 0:
+        res = Result(
+                    qseqid=query,
+                    user_input=seq
+                     )
+        res.save()
+    
+    # get the records havin gmax pid values
+    for item in result:
+        current_bitscore = Decimal(item.get('bitscore'))
+        if current_bitscore > max_bitscore :
+            sorted_protein_list.clear()
+            sorted_protein_list.append(item)
+            max_bitscore = current_bitscore
+        elif current_bitscore == max_bitscore:
+            sorted_protein_list.append(item)
+            
 
-    print("result", result)
-
-    for record in result:
+    for record in sorted_protein_list:
         res = Result(qseqid=query,
                      salltitles=record.get("salltitles"),
                      sseqid=record.get("saccver"),
@@ -89,8 +112,10 @@ def getBlast(seq, db, evalue=0.001):
                      sstart=record.get("sstart"),
                      send=record.get("send"),
                      evalue=Decimal(record.get("evalue")),
-                     bitscore=Decimal(record.get("bitscore"))
+                     bitscore=Decimal(record.get("bitscore")),
+                     user_input=seq
                      )
-        res.date_submitted = timezone.now()
+        # res.date_submitted = timezone.now()
         print("----->", res)
+
         res.save()

@@ -1,15 +1,16 @@
 import React from 'react';
 import { ListGroup } from 'reactstrap';
 import { Nav, NavItem, NavLink } from 'reactstrap';
+import SingleProteinInfo from './SingleProtienInfo'
 
 const RecentSearches = (props) => {
-  
+
   return (
     <ListGroup>
       <h3>Recent Searches:</h3>
-      {props.loadingText ? <p> Running Blast for submitted query .... </p> : <p/>}
-      <p> No Match</p>
-      <p> No Match</p>
+      {props.result ? props.result.map((ele) => {
+        return <SingleProteinInfo proteinInfo={ele.fields}/> 
+      }): <p></p>}
     </ListGroup>
   );
 }

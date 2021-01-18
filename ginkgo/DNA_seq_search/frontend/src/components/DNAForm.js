@@ -35,7 +35,9 @@ const DNAForm = (props) => {
       setMessage('Please enter a valid DNA sequence containg letters ATGC')
     } else {
       setMessage('DNA sequence submitted')
-      props.setLoadingText(true)
+      props.setState({
+        reload: true
+      })
     }
   }
 
@@ -51,8 +53,6 @@ const DNAForm = (props) => {
     setSequence('')
     const response = await fetch(request);
     checkStatusAndSetMessage(response);
-
-    // create a text which says data is processing 
   }
 
   return (
