@@ -47,7 +47,7 @@ const DNAForm = (props) => {
   }
 
   return (
-    <Grid style={{"background":"#efdcc3"}} container spacing={1}>
+    <Grid style={{"background":"#f4e7d7"}} container spacing={1}>
       <Grid style={{"margin-top":"50px"}} item xs={12} align="center">
         <Typography component="h6" variant="h6">
           Enter DNA sequence:

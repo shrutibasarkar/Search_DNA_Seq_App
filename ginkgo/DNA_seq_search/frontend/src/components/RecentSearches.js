@@ -8,7 +8,7 @@ const RecentSearches = (props) => {
   return (
     <ListGroup>
       <h3>Recent Searches:</h3>
-      {props.result ? props.result.map((ele) => {
+      {props.result.length > 0 ? props.result.map((ele) => {
         return <SingleProteinInfo proteinInfo={ele.fields}/> 
       }): <p style={{ color: '#a16e2b' }}>Currently no results</p>}
     </ListGroup>

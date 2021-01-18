@@ -1,2 +1,1 @@
-seq_id	371	NC_000852.5	NC_000852.5 Paramecium bursaria Chlorella virus 1, complete genome	100.000	0	0	1	371	429	799	0.0	686
-seq_id	371	NC_000852.5	NC_000852.5 Paramecium bursaria Chlorella virus 1, complete genome	100.000	0	0	1	371	330377	330007	0.0	686
+seq_id	575	NC_016072.1	NC_016072.1 Megavirus chiliensis, complete genome	100.000	0	0	1	575	652	1226	0.0	1062
