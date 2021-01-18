@@ -4,8 +4,6 @@ import Header from "./Header"
 import DNAForm from "./DNAForm"
 import RecentSearches from "./RecentSearches"
 
-const BASE_URL ='http://127.0.0.1:8000';
-
 class App extends React.Component { 
   constructor(){
     super();
@@ -20,7 +18,7 @@ class App extends React.Component {
 
   // fetches the results from database
   async getAllMatchedResult(isReload){
-    await fetch(`${BASE_URL}/api/results`)
+    await fetch(`/api/results`)
     .then((response) => response.json())
     .then((data) => {
       let parsedData = JSON.parse(data);

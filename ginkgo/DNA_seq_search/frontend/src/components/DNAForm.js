@@ -4,8 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import FormControl from "@material-ui/core/FormControl";
 
-const BASE_URL ='http://127.0.0.1:8000';
-
 const DNAForm = (props) => {
 
   const [sequence, setSequence] = useState('');
@@ -36,7 +34,7 @@ const DNAForm = (props) => {
   // calls the backend to initiate the blast search
   const callBackend = async() => {
     setSequence('')
-    const response = await fetch(`${BASE_URL}/api/dna_seq/`, {
+    const response = await fetch(`/api/dna_seq/`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
