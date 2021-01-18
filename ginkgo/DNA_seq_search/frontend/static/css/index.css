@@ -2,8 +2,8 @@
     text-align: center;
   }
   
-  .b_submit{
-    background-color: #4CAF50; 
+  /* .modal_button{
+    background-color: #deb887; 
     border: none;
     color: white;
     padding: 15px 32px;
@@ -13,20 +13,8 @@
     font-size: 12px;
     margin: 4px 2px;
     cursor: pointer;
-  }
+  } */
 
-  .b_reset{
-    background-color:gray; 
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-    margin: 4px 2px;
-    cursor: pointer;
-  }
   
   .App-header {
     background-color: #282c34;

@@ -10,7 +10,7 @@ const RecentSearches = (props) => {
       <h3>Recent Searches:</h3>
       {props.result ? props.result.map((ele) => {
         return <SingleProteinInfo proteinInfo={ele.fields}/> 
-      }): <p></p>}
+      }): <p style={{ color: '#a16e2b' }}>Currently no results</p>}
     </ListGroup>
   );
 }
