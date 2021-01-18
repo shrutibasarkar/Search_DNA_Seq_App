@@ -9,6 +9,11 @@ cd DNA_seq_search/frontend
 echo "installing npm packages......"
 npm install
 
+# running webpack
+echo "running webpack......."
+npm run dev
+
+
 # cd out one directory
 cd ../
 
