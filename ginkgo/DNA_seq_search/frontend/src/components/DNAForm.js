@@ -3,8 +3,8 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import FormControl from "@material-ui/core/FormControl";
-import { Alert, AlertTitle } from '@material-ui/lab';
-import { blue } from '@material-ui/core/colors';
+
+const BASE_URL ='http://127.0.0.1:8000';
 
 const DNAForm = (props) => {
 
@@ -18,7 +18,8 @@ const DNAForm = (props) => {
     setMessage('')
   } 
  
-  // check the status and set the message
+  // sets the user query input validation message 
+  // and state
   const checkStatusAndSetMessage = (response) => {
     if(response.status == '400') {
       setMessage('Please enter a valid DNA sequence containg letters ATGC!')
@@ -35,7 +36,7 @@ const DNAForm = (props) => {
   // calls the backend to initiate the blast search
   const callBackend = async() => {
     setSequence('')
-    const response = await fetch(`http://127.0.0.1:8000/api/dna_seq/`, {
+    const response = await fetch(`${BASE_URL}/api/dna_seq/`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
@@ -46,7 +47,7 @@ const DNAForm = (props) => {
   }
 
   return (
-      <Grid style={{background:"#efdcc3"}} container spacing={1}>
+    <Grid style={{"background":"#efdcc3"}} container spacing={1}>
       <Grid style={{"margin-top":"50px"}} item xs={12} align="center">
         <Typography component="h6" variant="h6">
           Enter DNA sequence:
@@ -56,7 +57,10 @@ const DNAForm = (props) => {
       <Grid item xs={12} align="center">
         <FormControl>
           <textarea id="dna_seq" name="dna_seq"
-          rows="5" cols="33" onClick={() => setMessage('')} onChange={(e) => setSequence(e.target.value) } value={sequence} placeholder='Enter a DNA sequence consisting of ATGC of at least length 30.'></textarea>
+            rows="5" cols="33" onClick={() => setMessage('')} 
+            onChange={(e) => setSequence(e.target.value) } value={sequence} 
+            placeholder='Enter a DNA sequence consisting of ATGC of at least length 30.'>
+          </textarea>
         </FormControl>
       </Grid>
 
@@ -82,4 +86,5 @@ const DNAForm = (props) => {
     </Grid>
   )
 }
+
 export default DNAForm;

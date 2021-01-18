@@ -3,13 +3,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Button from "@material-ui/core/Button";
 
-function rand() {
+const mathRound = () => {
   return Math.round(Math.random() * 20) - 10;
 }
 
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+const getModalStyle = () => {
+  const top = 50 + mathRound();
+  const left = 50 + mathRound();
 
   return {
     top: `${top}%`,
@@ -27,11 +27,10 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     'overflow-wrap': 'break-word'
-    
   },
 }));
 
-function DnaSeqModal(props) {
+const DnaSeqModal = (props) => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
