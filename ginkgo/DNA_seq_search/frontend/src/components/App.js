@@ -50,7 +50,7 @@ class App extends React.Component {
       <div>
         <Header />
         <div class="row">
-        <div class="col"> <DNAForm  setState={this.setState} reload={this.state.reload}/></div>
+        <div class="col"> <DNAForm loadingText={this.state.loadingText} setState={this.setState} reload={this.state.reload}/></div>
         <div class="col"> <RecentSearches  result={this.state.result} reload={this.state.reload} /></div>
         </div> 
       </div>

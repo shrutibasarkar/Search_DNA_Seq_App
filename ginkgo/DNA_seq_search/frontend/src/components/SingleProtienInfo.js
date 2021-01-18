@@ -1,12 +1,13 @@
 import React from 'react';
 import DnaSeqModal from "./QueryModal"
+import { ListGroup } from 'reactstrap';
 
 const SingleProteinInfo = (props) => {
 
 	let dataTimeArray = props.proteinInfo.date_submitted.split('T')
 	let date = dataTimeArray[0]
 	return (
-		
+	
 			<table>
 				<tr style={{color:'#b47b31'}} >
 			{props.proteinInfo.salltitles== 'RESULT UNKNOWN' ? 
@@ -20,9 +21,13 @@ const SingleProteinInfo = (props) => {
 			<p><b>Query:</b> {`${props.proteinInfo.user_input.substring(0,10)}...`} <br></br>
 			</p>
 			<div><DnaSeqModal dnaQuery={props.proteinInfo.user_input}/></div>
+			<br></br><hr/>
 	</tr>
-	</table>	
+	</table>
+
+		
 	)
 
 }
+
 export default SingleProteinInfo;
