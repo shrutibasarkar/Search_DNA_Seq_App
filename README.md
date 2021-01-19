@@ -1,6 +1,6 @@
 # Search_DNA_Seq_App
 
-### This app helps user to get protien info for the submitted DNA sequence. 
+### This app helps user to get protein info for the submitted DNA sequence. 
 
 <img width="1274" alt="Screen Shot 2021-01-18 at 6 19 23 PM" src="https://user-images.githubusercontent.com/43798183/104970560-e625f080-59b9-11eb-84ee-c1dceb8e029f.png">
 
