@@ -14,21 +14,21 @@
 8 The results will be displayed in Recent Search list.
 ```    
 
-### Click below link to see the running app
+###  App in Production
 ```
 http://shruti2190.pythonanywhere.com/
 ```
 
  Example sequence:
-```
+`
 AAAATATTGTCACTGTTTAAGAATTGTGAAAAAAATAGTGTAAGCAATAGCAGATCATTAAATAATCCCCCAAATTTTCAGAATTGTCAAAAATATTTTAGCACAATTCTAATATTTCTGGCAAAAAATATTCATAGTTGTCACATTAATAATGCAACAAATATGAAAAAATAATGATTTAGAATTTAGTAACATGTAAATATTTTTATATACATATACAAATTTGTTACTCTGTTTATTTTAGTTGTGTATTGATTATGTAAAAACATATAAAGAAAAAGACAGAATCTAACATAGGATATGCCAAAAAT
-```
+`
 
 ### Blast database details:
 
-```
+`
 Sequences of the NCIB entries: ​​NC_000852, NC_007346, NC_008724, NC_009899, NC_014637, NC_020104, NC_023423, NC_023640, NC_023719,NC_027867 have been downloaded from NCBI proteins written in fasta format and created Blast databases cocontaining the provided list of proteins using makeblastdb -dbtype Nucl -in Nucleotide.fasta
-```
+`
 ### Dependencies
 ```
 biopython==1.78
@@ -43,4 +43,6 @@ React
 
 <img width="1274" alt="Screen Shot 2021-01-18 at 6 19 23 PM" src="https://user-images.githubusercontent.com/43798183/104970560-e625f080-59b9-11eb-84ee-c1dceb8e029f.png">
 
+```
 Note: You need to give your local path location to blastn in NcbiblastnCommandline ()
+```
