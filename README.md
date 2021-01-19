@@ -1,6 +1,8 @@
 # Search_DNA_Seq_App
 
-### This app helps user to get protien info for the submitted DNA sequence.  
+### This app helps user to get protien info for the submitted DNA sequence. 
+
+<img width="1274" alt="Screen Shot 2021-01-18 at 6 19 23 PM" src="https://user-images.githubusercontent.com/43798183/104970560-e625f080-59b9-11eb-84ee-c1dceb8e029f.png">
 
 ### Steps to run this app locally 
 ```
@@ -40,8 +42,6 @@ node==v12.16.3
 npm=6.14.4
 React
 ```
-
-<img width="1274" alt="Screen Shot 2021-01-18 at 6 19 23 PM" src="https://user-images.githubusercontent.com/43798183/104970560-e625f080-59b9-11eb-84ee-c1dceb8e029f.png">
 
 ```
 Note: You need to give your local path location to blastn in NcbiblastnCommandline ()
