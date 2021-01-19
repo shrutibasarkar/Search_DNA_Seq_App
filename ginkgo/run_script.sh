@@ -2,25 +2,19 @@
 
 echo "running script......"
 
-# cd into frontend directory
-cd DNA_seq_search/frontend
 
-# npm install
-echo "installing npm packages......"
-npm install
+cd DNA_seq_search/
 
-# running webpack
-echo "running webpack......."
-npm run dev
-
-
-# cd out one directory
-cd ../
+pip install Django
+pip install django-blastplus
+pip install djangorestframework
+pip install biopython
 
 # run migration script
 echo "running migrations....."
 python manage.py migrate 
 python manage.py makemigrations
+
 
 # open app locally on browser 
 # this command runs on mac system 
