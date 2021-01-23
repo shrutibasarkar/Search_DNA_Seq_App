@@ -10,15 +10,14 @@ class App extends React.Component {
     this.setState = this.setState.bind(this)
     this.getAllMatchedResult = this.getAllMatchedResult.bind(this)
     this.state = {
-      loadingText: '',
       result: '',
       reload: false
     }
   }
 
   // fetches the results from database
-  async getAllMatchedResult(isReload){
-    await fetch(`/api/results`)
+  getAllMatchedResult(isReload){
+    fetch(`/api/results`)
     .then((response) => response.json())
     .then((data) => {
       let parsedData = JSON.parse(data);
@@ -32,9 +31,7 @@ class App extends React.Component {
   // triggers getAllMatchedResult once when 
   // the page load initially
   componentWillMount(){
-    if(!this.state.reload) {
-      this.getAllMatchedResult(false)
-    }
+    this.getAllMatchedResult(false)
   }
 
   // it triggers getAllMatchedResult everytime  
@@ -50,8 +47,8 @@ class App extends React.Component {
       <div>
         <Header />
         <div class="row">
-        <div class="col"> <DNAForm loadingText={this.state.loadingText} setState={this.setState} reload={this.state.reload}/></div>
-        <div class="col"> <RecentSearches  result={this.state.result} reload={this.state.reload} /></div>
+        <div class="col"> <DNAForm setState={this.setState} reload={this.state.reload}/></div>
+        <div class="col"> <RecentSearches  result={this.state.result} /></div>
         </div> 
       </div>
     );

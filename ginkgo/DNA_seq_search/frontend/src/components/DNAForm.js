@@ -26,7 +26,7 @@ const DNAForm = (props) => {
       setMessage('DNA sequence submitted!')
       setMessageColor('green')
       props.setState({
-        reload: true,
+        reload: true
       })
     }
   }
@@ -55,7 +55,7 @@ const DNAForm = (props) => {
       <Grid item xs={12} align="center">
         <FormControl>
           <textarea id="dna_seq" name="dna_seq"
-            rows="5" cols="33" onClick={() => setMessage('')} 
+            rows="5" cols="33"  
             onChange={(e) => setSequence(e.target.value) } value={sequence} 
             placeholder='Enter a DNA sequence consisting of ATGC of at least length 30.'>
           </textarea>

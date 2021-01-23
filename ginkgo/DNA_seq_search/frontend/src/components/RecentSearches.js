@@ -1,6 +1,5 @@
 import React from 'react';
 import { ListGroup } from 'reactstrap';
-import { Nav, NavItem, NavLink } from 'reactstrap';
 import SingleProteinInfo from './SingleProtienInfo'
 
 const RecentSearches = (props) => {
