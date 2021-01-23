@@ -25,18 +25,3 @@ open http://127.0.0.1:8000
 # run server 
 python manage.py runserver  
 
-
-
-
-
-
-
-
-# 2. cd to DNA_seq_search/  run following command
-		# python manage.py migrate         #get database data
-		# python manage.py makemigrations
-        # run server        
-		# python manage.py runserver    
-
-
- #    NOde    modules
